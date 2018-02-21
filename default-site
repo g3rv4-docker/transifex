@@ -1,0 +1,17 @@
+server {
+  listen *:80;
+  server_name local.transifex
+  server_tokens off;
+
+  root /var/app/frontend;
+
+  location /api {
+    proxy_set_header Host $http_host;
+    proxy_pass http://localhost:5000;
+    proxy_redirect http://localhost:5000/ http://local.transifex/;
+  }
+
+  location / {
+    try_files $uri $uri.html $uri/index.html;
+  }
+}
