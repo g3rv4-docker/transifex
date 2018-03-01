@@ -6,6 +6,8 @@ pipeline:
       - "docker-compose -f /var/transifex/docker-compose.yml stop"
       - "docker-compose -f /var/transifex/docker-compose.yml rm -f"
       - "docker-compose -f /var/transifex/docker-compose.yml up -d"
+      - "curl -X DELETE \"https://api.cloudflare.com/client/v4/zones/$${CLOUDFLARE_ZONE}/purge_cache\" -H \"X-Auth-Email: $${CLOUDFLARE_EMAIL}\" -H \"X-Auth-Key: $${CLOUDFLARE_KEY}\" -H \"Content-Type: application/json\" --data '{\"purge_everything\":true}'"
+    secrets: [cloudflare_zone, cloudflare_email, cloudflare_key]
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /home/gervasio/docker/transifex:/var/transifex
