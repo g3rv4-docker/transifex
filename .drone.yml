@@ -1,0 +1,11 @@
+pipeline:
+  build:
+    image: g3rv4/docker
+    commands:
+      - "docker build -t g3rv4/transifex ."
+      - "docker-compose -f /var/transifex/docker-compose.yml stop"
+      - "docker-compose -f /var/transifex/docker-compose.yml rm -f"
+      - "docker-compose -f /var/transifex/docker-compose.yml up -d"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/gervasio/docker/transifex:/var/transifex
